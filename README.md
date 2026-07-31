@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./web/public/logo-mark.svg" alt="Sophron" width="84" height="84" />
+  <img src="./web/public/apple-touch-icon.png" alt="Sophron" width="84" height="84" />
 
   # Sophron
 
