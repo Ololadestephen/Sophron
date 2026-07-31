@@ -34,8 +34,6 @@ SQLite reservation <- deterministic policy <- normalized challenge
 
 The payment gate performs the exact two-request x402 flow. It hashes and stores the original challenge, reserves budget atomically, rechecks the complete policy immediately before signing, and persists the Hedera transaction and HashScan link.
 
-See [Architecture](docs/ARCHITECTURE.md) and [Threat model](docs/THREAT_MODEL.md) for the detailed boundaries and invariants.
-
 ## Stack
 
 - Node.js 20+, TypeScript, Hono
@@ -136,8 +134,6 @@ npm run check
 
 The tests cover policy boundaries, malformed amounts, budget reservations, append-only audit records, signing isolation, approval/denial, mocked x402 settlement, API contracts, and the constrained HAK v4 tool.
 
-The complete live-test checklist and demo order are in [Demo guide](docs/DEMO.md).
-
 ## Project map
 
 ```text
@@ -149,7 +145,6 @@ src/server/      Hono resource server and dashboard API
 src/providers/   deterministic paid demo resources
 scripts/         live rail test and three-scenario demo
 web/             dashboard
-docs/            architecture, threat model, demo runbook
 ```
 
 ## Current scope

@@ -10,6 +10,7 @@ dist
 .idea
 
 docs/superpowers/
+/docs/
 
 LANDING.md
 APP_SPEC.md
