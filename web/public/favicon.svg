@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Sophron">
+  <!-- Policy gate monogram: open ring + threshold + controlled flow -->
+  <rect width="32" height="32" rx="8" fill="#0c1520"/>
+  <g
+    fill="none"
+    stroke="#3dcf8e"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    transform="translate(16 16)"
+  >
+    <!-- Split ring (boundary with intentional gap) -->
+    <path d="M -2.2 -9.4 A 9.5 9.5 0 0 0 -2.2 9.4"/>
+    <path d="M  2.2  9.4 A 9.5 9.5 0 0 0  2.2 -9.4"/>
+    <!-- Policy threshold -->
+    <path d="M 0 -10.2 V -3.1"/>
+    <path d="M 0  3.1  V 10.2"/>
+    <!-- Controlled S-flow through the gate -->
+    <path d="M -4.6 -2.4 C -4.6 -5.4 -1.8 -6.6 0.6 -5.2 C 3.4 -3.6 4.2 -0.4 1.6 1.8 C -0.6 3.6 -1.2 5.8 0.8 7.2 C 2.4 8.3 4.4 7.8 5.2 6.4"/>
+  </g>
+</svg>

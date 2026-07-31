@@ -1,0 +1,44 @@
+{
+  "name": "sophron",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server/index.ts",
+    "start": "tsx src/server/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test && ASTRO_TELEMETRY_DISABLED=1 npm run web:typecheck && npm run test -w web && ASTRO_TELEMETRY_DISABLED=1 npm run web:build",
+    "e2e": "tsx scripts/e2e-pay.ts",
+    "demo": "tsx scripts/demo.ts",
+    "web:dev": "npm run dev -w web",
+    "web:build": "npm run build -w web",
+    "web:preview": "npm run preview -w web",
+    "web:typecheck": "npm run typecheck -w web"
+  },
+  "workspaces": [
+    "web"
+  ],
+  "dependencies": {
+    "@hashgraph/hedera-agent-kit": "4.0.0",
+    "@hashgraph/hedera-agent-kit-langchain": "1.0.0",
+    "@hiero-ledger/sdk": "2.86.2",
+    "@hono/node-server": "^1.13.0",
+    "@langchain/openai": "1.5.5",
+    "@x402/core": "2.16.0",
+    "@x402/fetch": "2.16.0",
+    "@x402/hedera": "2.16.0",
+    "@x402/hono": "2.16.0",
+    "better-sqlite3": "13.0.1",
+    "dotenv": "^16.4.0",
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,39 @@
+# Sophron
+
+Sophron is a policy plane for autonomous agent payments over x402 on Hedera.
+Agents can buy services; deterministic policy decides reject, pending approval, or auto-pay before signing.
+
+Tagline: Self-control for autonomous payments.
+Supporting: Agents can buy. They just can’t overspend.
+
+## Human dashboard
+
+- Cinematic product story at `/`
+- Interactive control plane at `/dashboard`
+- Control plane UI for policy, UTC-day spend, agent runs, and payment attempts
+- Approve / deny for pending_approval attempts
+- HashScan links for settled payments
+
+## API (backend)
+
+Base URL defaults to http://localhost:4021 (override with PUBLIC_API_BASE_URL).
+
+- GET  /api/policy
+- GET  /api/attempts
+- GET  /api/attempts/:id
+- POST /api/attempts/:id/approve
+- POST /api/attempts/:id/deny
+- POST /api/agent/run
+- POST /api/demo/reset
+
+## Demo services
+
+- risk-report — low cost, auto-pay when allowlisted
+- market-brief — higher cost, human approval
+- unknown-provider — non-allowlisted merchant (reject)
+
+## Principles
+
+- LLM owns intent and service selection
+- Application code owns policy, signing, and money movement
+- Buyer private keys never enter the browser

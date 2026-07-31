@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Sophron">
+  <rect width="128" height="128" rx="28" fill="#0c1520"/>
+  <g
+    fill="none"
+    stroke="#3dcf8e"
+    stroke-width="8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    transform="translate(64 64)"
+  >
+    <path d="M -8.5 -37 A 38 38 0 0 0 -8.5 37"/>
+    <path d="M  8.5  37 A 38 38 0 0 0  8.5 -37"/>
+    <path d="M 0 -40.5 V -12.5"/>
+    <path d="M 0  12.5  V 40.5"/>
+    <path d="M -18.5 -9.5 C -18.5 -21.5 -7.2 -26.5 2.5 -21 C 13.5 -14.5 16.8 -1.5 6.5 7.5 C -2.5 15.5 -4.8 24.5 3.2 30 C 9.5 34.2 17.5 32.2 20.8 26.5"/>
+  </g>
+</svg>

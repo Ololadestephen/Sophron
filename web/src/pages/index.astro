@@ -1,0 +1,288 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/landing.css";
+
+const protocol = [
+  {
+    number: "01",
+    label: "Intent",
+    title: "The agent asks.",
+    body: "Sophron exposes one constrained purchase tool. The model can choose a service—not an amount, destination, or signature.",
+  },
+  {
+    number: "02",
+    label: "Judgment",
+    title: "Policy decides.",
+    body: "Merchant trust, spend limits, UTC-day budget, and human approval are evaluated by deterministic code before funds can move.",
+  },
+  {
+    number: "03",
+    label: "Proof",
+    title: "Hedera settles.",
+    body: "Approved x402 payments settle in HBAR on Hedera testnet, producing a receipt, transaction ID, and verifiable HashScan trail.",
+  },
+];
+---
+
+<Base
+  title="Sophron | Judgment for autonomous payments"
+  description="Sophron is the deterministic policy plane for AI-agent payments over x402 on Hedera. Agents can buy. They just can’t overspend."
+>
+  <a class="cinema-skip" href="#story">Skip to story</a>
+  <div class="cinema-progress" aria-hidden="true"><span></span></div>
+
+  <header class="cinema-nav" data-cinema-nav>
+    <a class="cinema-brand" href="/" aria-label="Sophron home">
+      <span class="cinema-brand__mark" aria-hidden="true">Σ</span>
+      <span>Sophron</span>
+    </a>
+    <div class="cinema-nav__right">
+      <span class="cinema-network"><i aria-hidden="true"></i> Hedera testnet</span>
+      <a class="cinema-nav__link" href="#architecture">How it works</a>
+      <a class="cinema-nav__link" href="#control-plane">Interface</a>
+      <a class="cinema-button cinema-button--small" href="/dashboard">
+        Open control plane <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="cinema" id="story">
+    <section class="cinema-hero" aria-labelledby="cinema-title">
+      <div class="cinema-hero__visual" aria-hidden="true">
+        <img
+          src="/media/robot-judgment.jpg"
+          alt=""
+          width="828"
+          height="832"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="cinema-noise" aria-hidden="true"></div>
+      <div class="cinema-glow" data-cursor-glow aria-hidden="true"></div>
+
+      <div class="cinema-hero__copy">
+        <p class="cinema-kicker" data-reveal>
+          <span>Policy infrastructure</span>
+          <span>x402 · Hedera</span>
+        </p>
+        <h1 id="cinema-title" class="cinema-title" aria-label="Autonomy with judgment">
+          <span class="cinema-title__line" data-reveal><span>Autonomy</span></span>
+          <span class="cinema-title__line cinema-title__line--shift" data-reveal><span>with</span></span>
+          <span class="cinema-title__line cinema-title__line--accent" data-reveal><span>judgment.</span></span>
+        </h1>
+        <p class="cinema-hero__lede" data-reveal>
+          The deterministic policy plane between an agent’s intent and the moment money moves.
+        </p>
+        <div class="cinema-hero__actions" data-reveal>
+          <a class="cinema-button cinema-button--primary" href="/dashboard">
+            Enter the control plane <span aria-hidden="true">↗</span>
+          </a>
+          <a class="cinema-text-link" href="#architecture">
+            Trace the payment path <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="cinema-hero__footer" data-reveal>
+        <div class="cinema-scroll-cue"><span></span> Scroll to enter</div>
+        <div class="cinema-hero__facts">
+          <span><strong>0</strong> floating-point decisions</span>
+          <span><strong>1</strong> constrained payment tool</span>
+          <span><strong>100%</strong> auditable attempts</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cinema-manifesto" aria-label="Sophron thesis">
+      <p class="cinema-eyebrow" data-reveal>Self-control for autonomous payments</p>
+      <p class="cinema-manifesto__line" data-reveal>
+        Agents can buy.
+      </p>
+      <p class="cinema-manifesto__line cinema-manifesto__line--dim" data-reveal>
+        They just can’t overspend.
+      </p>
+      <div class="cinema-manifesto__aside" data-reveal>
+        <span>σοφρός / sōphrōn</span>
+        <p>Sound-minded. Temperate. Governed by judgment.</p>
+      </div>
+    </section>
+
+    <section class="cinema-chapter cinema-chapter--agent">
+      <div class="cinema-chapter__media">
+        <img
+          src="/media/robot-reader.jpg"
+          alt="Humanoid robot seated with a book"
+          width="1308"
+          height="1634"
+          loading="lazy"
+          data-parallax="0.09"
+        />
+        <div class="cinema-chapter__wash" aria-hidden="true"></div>
+        <span class="cinema-frame-index" aria-hidden="true">I / III</span>
+      </div>
+      <div class="cinema-chapter__copy">
+        <p class="cinema-eyebrow" data-reveal>The new economic actor</p>
+        <h2 data-reveal>The agent<br />has intent.</h2>
+        <p class="cinema-chapter__statement" data-reveal>
+          It can discover a service, receive an HTTP 402 challenge, and ask to pay. But desire is not authority.
+        </p>
+        <div class="cinema-rule" data-reveal>
+          <span>Model boundary</span>
+          <p>The LLM chooses the objective. It never controls the key, policy, amount, or destination.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cinema-interlude" aria-label="Policy decision sequence">
+      <div class="cinema-interlude__word" aria-hidden="true">PAUSE</div>
+      <div class="cinema-interlude__copy">
+        <p class="cinema-eyebrow" data-reveal>Before the signature</p>
+        <h2 data-reveal>Every payment<br />meets a boundary.</h2>
+        <ul class="cinema-checks">
+          <li data-reveal><span>Merchant</span><strong>Allowlisted?</strong><i>01</i></li>
+          <li data-reveal><span>Request</span><strong>Within limit?</strong><i>02</i></li>
+          <li data-reveal><span>UTC day</span><strong>Budget available?</strong><i>03</i></li>
+          <li data-reveal><span>Threshold</span><strong>Human needed?</strong><i>04</i></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="cinema-chapter cinema-chapter--human">
+      <div class="cinema-chapter__copy cinema-chapter__copy--light">
+        <p class="cinema-eyebrow" data-reveal>Human in the loop</p>
+        <h2 data-reveal>Autonomous<br />doesn’t mean<br />unaccountable.</h2>
+        <p class="cinema-chapter__statement" data-reveal>
+          Low-cost, trusted purchases can settle automatically. Higher-stakes intent pauses—bound to one immutable challenge—until a person approves or denies it.
+        </p>
+        <div class="approval-signal" data-reveal>
+          <div>
+            <span>Market brief · 0.03 ℏ</span>
+            <strong>Approval required</strong>
+          </div>
+          <i aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="cinema-chapter__media cinema-chapter__media--light">
+        <img
+          src="/media/human-robot.png"
+          alt="A robotic hand reaching toward a human hand"
+          width="838"
+          height="1044"
+          loading="lazy"
+          data-parallax="0.06"
+        />
+        <span class="cinema-frame-index cinema-frame-index--dark" aria-hidden="true">II / III</span>
+      </div>
+    </section>
+
+    <section class="cinema-protocol" id="architecture" aria-labelledby="protocol-title">
+      <div class="cinema-protocol__head">
+        <p class="cinema-eyebrow" data-reveal>The payment path</p>
+        <h2 id="protocol-title" data-reveal>Intent enters.<br />Proof leaves.</h2>
+        <p data-reveal>
+          One constrained flow from x402 challenge to Hedera settlement. Every branch creates evidence—even rejection.
+        </p>
+      </div>
+      <div class="cinema-protocol__steps">
+        {protocol.map((step) => (
+          <article class="protocol-card" data-reveal>
+            <div class="protocol-card__top">
+              <span>{step.number}</span>
+              <i aria-hidden="true"></i>
+              <span>{step.label}</span>
+            </div>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="cinema-console" id="control-plane" aria-labelledby="console-title">
+      <div class="cinema-console__intro">
+        <p class="cinema-eyebrow" data-reveal>The control plane</p>
+        <h2 id="console-title" data-reveal>See the decision.<br />Not just the result.</h2>
+        <p data-reveal>
+          Inspect policy, reserved and settled spend, immutable challenge hashes, audit events, and HashScan receipts from one operator surface.
+        </p>
+        <a class="cinema-button" href="/dashboard" data-reveal>
+          Launch dashboard <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <div class="console-window" data-reveal data-console-window>
+        <div class="console-window__bar">
+          <div><i></i><i></i><i></i></div>
+          <span>Sophron / Hedera testnet</span>
+          <strong>Live policy</strong>
+        </div>
+        <div class="console-window__body">
+          <div class="console-policy">
+            <div><span>Daily limit</span><strong>0.06 ℏ</strong></div>
+            <div><span>Approval above</span><strong>0.02 ℏ</strong></div>
+            <div><span>Reservation TTL</span><strong>15 min</strong></div>
+          </div>
+          <div class="console-spend">
+            <div><span>UTC-day budget</span><strong>0.04 / 0.06 ℏ</strong></div>
+            <div class="console-spend__track"><i></i><b></b></div>
+          </div>
+          <div class="console-attempts">
+            <div class="console-attempt console-attempt--success">
+              <i></i><span>Risk report</span><strong>Auto-approved</strong><b>0.01 ℏ</b>
+            </div>
+            <div class="console-attempt console-attempt--pending">
+              <i></i><span>Market brief</span><strong>Human approval</strong><b>0.03 ℏ</b>
+            </div>
+            <div class="console-attempt console-attempt--danger">
+              <i></i><span>Unknown provider</span><strong>Rejected</strong><b>0.005 ℏ</b>
+            </div>
+          </div>
+          <div class="console-proof">
+            <span>Latest proof</span>
+            <code>0.0.7162784@1784990000.000000001</code>
+            <strong>HashScan ↗</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cinema-final" aria-labelledby="final-title">
+      <div class="cinema-final__copy">
+        <p class="cinema-eyebrow" data-reveal>Built for agents that act</p>
+        <h2 id="final-title" data-reveal>Give autonomy<br />a conscience.</h2>
+        <p data-reveal>Policy-governed x402 payments. Settled on Hedera. Verifiable by anyone.</p>
+        <a class="cinema-button cinema-button--light" href="/dashboard" data-reveal>
+          Enter Sophron <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="cinema-final__visual" aria-hidden="true">
+        <img
+          src="/media/agents-at-work-ultra.png"
+          alt=""
+          width="1549"
+          height="1015"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </section>
+  </main>
+
+  <footer class="cinema-footer">
+    <a class="cinema-brand" href="/" aria-label="Sophron home">
+      <span class="cinema-brand__mark" aria-hidden="true">Σ</span>
+      <span>Sophron</span>
+    </a>
+    <p>Self-control for autonomous payments.</p>
+    <div>
+      <span>x402</span>
+      <span>Hedera</span>
+      <a href="/dashboard">Control plane ↗</a>
+    </div>
+  </footer>
+
+  <script>
+    import { mountLandingMotion } from "../lib/landing-motion";
+    mountLandingMotion();
+  </script>
+</Base>

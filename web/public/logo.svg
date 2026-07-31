@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 48" role="img" aria-label="Sophron">
+  <!-- Mark -->
+  <g transform="translate(0 0)">
+    <rect width="48" height="48" rx="12" fill="#0c1520"/>
+    <g
+      fill="none"
+      stroke="#3dcf8e"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      transform="translate(24 24)"
+    >
+      <path d="M -3.2 -14 A 14.25 14.25 0 0 0 -3.2 14"/>
+      <path d="M  3.2  14 A 14.25 14.25 0 0 0  3.2 -14"/>
+      <path d="M 0 -15.2 V -4.7"/>
+      <path d="M 0  4.7  V 15.2"/>
+      <path d="M -6.9 -3.6 C -6.9 -8.1 -2.7 -9.9 0.9 -7.8 C 5.1 -5.4 6.3 -0.6 2.4 2.7 C -0.9 5.7 -1.8 9 1.2 11.1 C 3.6 12.7 6.6 12 7.8 9.9"/>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <text
+    x="60"
+    y="32"
+    fill="#e8eef5"
+    font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    font-size="26"
+    font-weight="650"
+    letter-spacing="-0.04em"
+  >Sophron</text>
+</svg>

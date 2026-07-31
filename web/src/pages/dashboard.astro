@@ -1,0 +1,184 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+<Base
+  title="Sophron Control Plane | Policy-governed agent payments"
+  description={`${site.tagline} ${site.supportLine} Policy plane for agent payments over x402 on Hedera.`}
+>
+  <div id="dashboard-root" class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <img
+          class="brand__mark"
+          src="/logo-mark.svg"
+          width="36"
+          height="36"
+          alt=""
+          aria-hidden="true"
+        />
+        <div>
+          <div class="brand__name">{site.name}</div>
+          <span class="brand__tag">{site.tagline}</span>
+        </div>
+      </div>
+      <div class="topbar__meta">
+        <span class="badge badge--success" title="Network environment">{site.networkLabel}</span>
+        <span id="mode-badge" class="badge badge--muted">Connecting…</span>
+        <span class="facilitator" title="x402 facilitator connectivity">
+          <span id="facilitator-dot" class="status-dot" aria-hidden="true"></span>
+          <span id="facilitator-label">Facilitator…</span>
+        </span>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">{site.tagline}</h1>
+      <p>{site.purpose}</p>
+      <p class="hero__support">{site.supportLine}</p>
+      <p class="api-hint mt-2">
+        API base: <code id="api-base-label" class="mono">{site.defaultApiBase}</code>
+      </p>
+    </section>
+
+    <div
+      id="action-error"
+      class="alert alert--danger"
+      role="alert"
+      hidden
+    ></div>
+    <div id="live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="grid-main">
+      <section class="panel" aria-labelledby="policy-heading">
+        <div class="panel__head">
+          <h2 id="policy-heading" class="panel__title">Policy summary</h2>
+          <p class="panel__sub">Deterministic rules before any signing</p>
+        </div>
+        <div id="policy-grid" class="stat-grid"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="spend-heading">
+        <div class="panel__head">
+          <h2 id="spend-heading" class="panel__title">UTC-day spend</h2>
+          <p class="panel__sub">Settled + reserved + remaining</p>
+        </div>
+        <div id="spend-meter"></div>
+        <ul id="spend-legend" class="legend"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="agent-heading">
+        <div class="panel__head">
+          <h2 id="agent-heading" class="panel__title">Agent command</h2>
+          <p class="panel__sub">Intent only — policy owns money</p>
+        </div>
+        <div class="form-stack">
+          <div class="field">
+            <label for="agent-prompt">Prompt</label>
+            <textarea
+              id="agent-prompt"
+              name="prompt"
+              rows="3"
+              data-autofill="1"
+              placeholder="Describe the purchase objective…"
+            >{site.services[0].demoPrompt}</textarea>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="agent-service">Service</label>
+              <select id="agent-service" name="serviceId">
+                {site.services.map((s) => (
+                  <option value={s.id}>{s.label}</option>
+                ))}
+              </select>
+            </div>
+            <div class="field">
+              <label for="agent-param" id="param-label">{site.services[0].paramLabel}</label>
+              <input
+                id="agent-param"
+                name={site.services[0].paramKey}
+                type="text"
+                placeholder={site.services[0].paramPlaceholder}
+                value={site.services[0].paramPlaceholder}
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div>
+            <p class="panel__sub" style="margin-bottom: 0.4rem">Quick demo prompts</p>
+            <div class="demo-prompts">
+              <button type="button" class="btn btn--sm" data-demo-prompt="unknown-provider">
+                1 · Reject merchant
+              </button>
+              <button type="button" class="btn btn--sm" data-demo-prompt="risk-report">
+                2 · Auto-pay risk
+              </button>
+              <button type="button" class="btn btn--sm" data-demo-prompt="market-brief">
+                3 · Approve brief
+              </button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="run-agent" class="btn btn--primary">Run agent</button>
+            <button type="button" id="reset-demo" class="btn btn--ghost">Reset demo</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="detail-panel" aria-labelledby="detail-heading">
+        <div class="panel__head">
+          <h2 id="detail-heading" class="panel__title">Attempt detail</h2>
+          <p class="panel__sub">Policy, audit, settlement</p>
+        </div>
+        <div class="detail-actions">
+          <button type="button" id="approve-attempt" class="btn btn--amber" hidden>
+            Approve payment
+          </button>
+          <button type="button" id="deny-attempt" class="btn btn--danger" hidden>
+            Deny
+          </button>
+        </div>
+        <div id="detail-empty" class="empty">
+          Select an attempt from the timeline to inspect policy reasons, receipts, and HashScan links.
+        </div>
+        <div id="detail-content" hidden></div>
+      </section>
+
+      <section class="panel span-2" aria-labelledby="attempts-heading">
+        <div class="panel__head">
+          <h2 id="attempts-heading" class="panel__title">Attempts</h2>
+          <p class="panel__sub">Newest first · click a row for detail</p>
+        </div>
+        <div id="attempts-loading" class="empty" hidden>Loading attempts…</div>
+        <div id="attempts-empty" class="empty" hidden>
+          No payment attempts yet. Run an agent command or load a demo prompt.
+        </div>
+        <div class="table-wrap">
+          <table class="attempts">
+            <thead>
+              <tr>
+                <th scope="col">Service / merchant</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Policy</th>
+                <th scope="col">State</th>
+                <th scope="col">Time</th>
+                <th scope="col">Transaction</th>
+              </tr>
+            </thead>
+            <tbody id="attempts-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <footer class="footer-note">
+      Sophron demo dashboard · x402 on Hedera testnet · Policy owns money; the agent owns intent.
+      Protected responses appear only after settlement. Demo data is labeled when running in fixture mode.
+    </footer>
+  </div>
+
+  <script>
+    import { mountDashboard } from "../lib/dashboard-app";
+    mountDashboard();
+  </script>
+</Base>
