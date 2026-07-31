@@ -1,0 +1,40 @@
+export const site = {
+  name: "Sophron",
+  tagline: "Self-control for autonomous payments.",
+  supportLine: "Agents can buy. They just can’t overspend.",
+  purpose:
+    "Sophron is a policy plane for agent payments over x402 on Hedera—deterministic rules decide reject, approve, or auto-pay before any signing.",
+  networkLabel: "Hedera Testnet",
+  network: "hedera:testnet",
+  defaultApiBase: "http://localhost:4021",
+  hashscanBase: "https://hashscan.io/testnet",
+  services: [
+    {
+      id: "risk-report" as const,
+      label: "Risk report",
+      description: "Low-cost allowlisted account risk report (auto-pay path).",
+      paramKey: "account",
+      paramLabel: "Account ID",
+      paramPlaceholder: "0.0.1234",
+      demoPrompt: "Buy the low-cost account risk report for 0.0.1234",
+    },
+    {
+      id: "market-brief" as const,
+      label: "Market brief",
+      description: "Higher-cost brief that requires human approval.",
+      paramKey: "symbol",
+      paramLabel: "Symbol",
+      paramPlaceholder: "HBAR",
+      demoPrompt: "Purchase the premium market brief for HBAR",
+    },
+    {
+      id: "unknown-provider" as const,
+      label: "Unknown provider",
+      description: "Non-allowlisted merchant for the reject path.",
+      paramKey: "query",
+      paramLabel: "Query",
+      paramPlaceholder: "shadow-risk",
+      demoPrompt: "Buy a report from the unknown shadow provider",
+    },
+  ],
+} as const;

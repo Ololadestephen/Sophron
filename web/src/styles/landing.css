@@ -394,32 +394,6 @@ body {
   gap: 2rem;
 }
 
-.cinema-scroll-cue {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: rgba(225, 244, 242, 0.56);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-}
-
-.cinema-scroll-cue span {
-  width: 2.5rem;
-  height: 1px;
-  overflow: hidden;
-  background: rgba(225, 244, 242, 0.2);
-}
-
-.cinema-scroll-cue span::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: #71e1da;
-  animation: scroll-cue 2.2s ease-in-out infinite;
-}
-
 .cinema-hero__facts {
   display: flex;
   gap: clamp(1.5rem, 4vw, 4rem);
@@ -1181,11 +1155,6 @@ body {
   50% { transform: translateY(0.7rem) scale(1.035); }
 }
 
-@keyframes scroll-cue {
-  0% { transform: translateX(-110%); }
-  55%, 100% { transform: translateX(110%); }
-}
-
 @keyframes approval-pulse {
   0%, 100% { transform: scale(0.86); opacity: 0.72; }
   50% { transform: scale(1); opacity: 1; }
@@ -1293,7 +1262,6 @@ body {
     transform: none !important;
     transition: none !important;
   }
-  .cinema-scroll-cue span::after,
   .approval-signal i {
     animation: none !important;
   }
@@ -1714,6 +1682,44 @@ body {
 
   .protocol-card:hover::after {
     transform: scaleX(1);
+  }
+}
+
+/* Keep oversized display type inside its actual content column at every zoom level. */
+.cinema-hero__copy,
+.cinema-chapter__copy {
+  container-type: inline-size;
+}
+
+.cinema-title {
+  font-size: clamp(4rem, 15.2cqw, 8.4rem);
+  line-height: 0.86;
+}
+
+.cinema-title__line {
+  padding-block: 0.06em 0.16em;
+  margin-block: -0.06em -0.16em;
+}
+
+.cinema-hero__footer {
+  justify-content: flex-end;
+}
+
+.cinema-chapter--human .cinema-chapter__copy h2 {
+  max-width: 100%;
+  font-size: clamp(2.7rem, 12.25cqw, 6.2rem);
+  line-height: 0.98;
+  overflow-wrap: normal;
+}
+
+@media (max-width: 600px) {
+  .cinema-title {
+    font-size: clamp(3.2rem, 15.2cqw, 5.6rem);
+    line-height: 0.9;
+  }
+
+  .cinema-chapter--human .cinema-chapter__copy h2 {
+    font-size: clamp(2.55rem, 12.1cqw, 4.8rem);
   }
 }
 

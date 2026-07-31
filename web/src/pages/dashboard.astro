@@ -1,180 +1,287 @@
 ---
+import { Icon } from "astro-icon/components";
 import Base from "../layouts/Base.astro";
 import { site } from "../data/site";
+import "../styles/dashboard.css";
 ---
+
 <Base
   title="Sophron Control Plane | Policy-governed agent payments"
   description={`${site.tagline} ${site.supportLine} Policy plane for agent payments over x402 on Hedera.`}
 >
-  <div id="dashboard-root" class="shell">
-    <header class="topbar">
-      <div class="brand">
-        <img
-          class="brand__mark"
-          src="/logo-mark.svg"
-          width="36"
-          height="36"
-          alt=""
-          aria-hidden="true"
-        />
-        <div>
-          <div class="brand__name">{site.name}</div>
-          <span class="brand__tag">{site.tagline}</span>
-        </div>
-      </div>
-      <div class="topbar__meta">
-        <span class="badge badge--success" title="Network environment">{site.networkLabel}</span>
-        <span id="mode-badge" class="badge badge--muted">Connecting…</span>
-        <span class="facilitator" title="x402 facilitator connectivity">
+  <div id="dashboard-root" class="dashboard-app">
+    <aside class="app-rail" aria-label="Sophron navigation">
+      <a class="app-brand" href="/" aria-label="Sophron home">
+        <span class="app-brand__mark" aria-hidden="true">Σ</span>
+        <span>
+          <strong>{site.name}</strong>
+          <small>Control plane</small>
+        </span>
+      </a>
+
+      <nav class="app-nav" aria-label="Workspace sections">
+        <a class="app-nav__item is-active" href="#overview" aria-current="page">
+          <Icon name="ph:squares-four" aria-hidden="true" />
+          <span>Overview</span>
+        </a>
+        <a class="app-nav__item" href="#command">
+          <Icon name="ph:terminal-window" aria-hidden="true" />
+          <span>Agent command</span>
+        </a>
+        <a class="app-nav__item" href="#activity">
+          <Icon name="ph:activity" aria-hidden="true" />
+          <span>Attempts</span>
+        </a>
+        <a class="app-nav__item" href="#policy">
+          <Icon name="ph:shield-check" aria-hidden="true" />
+          <span>Policy</span>
+        </a>
+      </nav>
+
+      <div class="rail-spacer"></div>
+
+      <section class="rail-status" aria-label="System status">
+        <p class="rail-label">Runtime</p>
+        <div class="rail-status__row">
           <span id="facilitator-dot" class="status-dot" aria-hidden="true"></span>
           <span id="facilitator-label">Facilitator…</span>
-        </span>
-      </div>
-    </header>
-
-    <section class="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title">{site.tagline}</h1>
-      <p>{site.purpose}</p>
-      <p class="hero__support">{site.supportLine}</p>
-      <p class="api-hint mt-2">
-        API base: <code id="api-base-label" class="mono">{site.defaultApiBase}</code>
-      </p>
-    </section>
-
-    <div
-      id="action-error"
-      class="alert alert--danger"
-      role="alert"
-      hidden
-    ></div>
-    <div id="live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
-    <div class="grid-main">
-      <section class="panel" aria-labelledby="policy-heading">
-        <div class="panel__head">
-          <h2 id="policy-heading" class="panel__title">Policy summary</h2>
-          <p class="panel__sub">Deterministic rules before any signing</p>
         </div>
-        <div id="policy-grid" class="stat-grid"></div>
+        <div id="mode-badge" class="badge badge--muted">Connecting…</div>
+        <div class="rail-api">
+          <span>API endpoint</span>
+          <code id="api-base-label" class="mono">{site.defaultApiBase}</code>
+        </div>
       </section>
 
-      <section class="panel" aria-labelledby="spend-heading">
-        <div class="panel__head">
-          <h2 id="spend-heading" class="panel__title">UTC-day spend</h2>
-          <p class="panel__sub">Settled + reserved + remaining</p>
+      <a class="rail-back" href="/">
+        <Icon name="ph:arrow-left" aria-hidden="true" />
+        <span>Product site</span>
+      </a>
+    </aside>
+
+    <main class="workspace">
+      <header class="workspace-header" id="overview">
+        <div>
+          <p class="workspace-eyebrow">
+            <span class="eyebrow-dot" aria-hidden="true"></span>
+            Policy operations · Hedera testnet
+          </p>
+          <h1>Agent payment control</h1>
+          <p class="workspace-lede">
+            Observe intent, enforce deterministic guardrails, and approve money movement from one surface.
+          </p>
         </div>
-        <div id="spend-meter"></div>
-        <ul id="spend-legend" class="legend"></ul>
+        <div class="workspace-header__actions">
+          <span class="network-pill">
+            <Icon name="ph:hexagon" aria-hidden="true" />
+            {site.networkLabel}
+          </span>
+          <button type="button" id="reset-demo" class="btn btn--quiet">
+            <Icon name="ph:arrow-counter-clockwise" aria-hidden="true" />
+            Reset demo
+          </button>
+        </div>
+      </header>
+
+      <div id="action-error" class="alert alert--danger" role="alert" hidden></div>
+      <div id="live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+      <section class="command-layout" id="command" aria-label="Agent purchase command">
+        <article class="panel command-panel">
+          <div class="panel__head panel__head--command">
+            <div>
+              <p class="panel-kicker">New purchase intent</p>
+              <h2 id="agent-heading" class="panel__title">What should the agent acquire?</h2>
+              <p class="panel__sub">The agent chooses a service. Policy controls every financial decision.</p>
+            </div>
+            <span class="control-badge">
+              <Icon name="ph:lock-key" aria-hidden="true" />
+              Signing isolated
+            </span>
+          </div>
+
+          <div class="form-stack">
+            <div class="field field--prompt">
+              <label for="agent-prompt">Purchase objective</label>
+              <div class="prompt-shell">
+                <Icon name="ph:sparkle" aria-hidden="true" />
+                <textarea
+                  id="agent-prompt"
+                  name="prompt"
+                  rows="3"
+                  data-autofill="1"
+                  placeholder="Describe the purchase objective…"
+                >{site.services[0].demoPrompt}</textarea>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="agent-service">Paid service</label>
+                <select id="agent-service" name="serviceId">
+                  {site.services.map((s) => <option value={s.id}>{s.label}</option>)}
+                </select>
+              </div>
+              <div class="field">
+                <label for="agent-param" id="param-label">{site.services[0].paramLabel}</label>
+                <input
+                  id="agent-param"
+                  name={site.services[0].paramKey}
+                  type="text"
+                  placeholder={site.services[0].paramPlaceholder}
+                  value={site.services[0].paramPlaceholder}
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="run-agent" class="btn btn--primary btn--run">
+                <Icon name="ph:play-fill" aria-hidden="true" />
+                Run policy check
+              </button>
+              <p class="form-assurance">
+                <Icon name="ph:shield-check" aria-hidden="true" />
+                No model can override amount, destination, or budget.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <aside class="panel path-panel" aria-labelledby="paths-heading">
+          <div class="panel__head">
+            <div>
+              <p class="panel-kicker">Guided scenarios</p>
+              <h2 id="paths-heading" class="panel__title">Trace every decision path</h2>
+            </div>
+            <span class="path-count">03</span>
+          </div>
+          <div class="decision-paths">
+            <button type="button" class="decision-path decision-path--deny" data-demo-prompt="unknown-provider">
+              <span class="decision-path__number">01</span>
+              <span class="decision-path__copy">
+                <strong>Reject merchant</strong>
+                <small>Destination is outside the allowlist</small>
+              </span>
+              <span class="decision-path__outcome">Block</span>
+            </button>
+            <button type="button" class="decision-path decision-path--auto" data-demo-prompt="risk-report">
+              <span class="decision-path__number">02</span>
+              <span class="decision-path__copy">
+                <strong>Auto-pay risk report</strong>
+                <small>Trusted · below approval threshold</small>
+              </span>
+              <span class="decision-path__outcome">Pay</span>
+            </button>
+            <button type="button" class="decision-path decision-path--review" data-demo-prompt="market-brief">
+              <span class="decision-path__number">03</span>
+              <span class="decision-path__copy">
+                <strong>Approve market brief</strong>
+                <small>Trusted · human judgment required</small>
+              </span>
+              <span class="decision-path__outcome">Review</span>
+            </button>
+          </div>
+        </aside>
       </section>
 
-      <section class="panel" aria-labelledby="agent-heading">
-        <div class="panel__head">
-          <h2 id="agent-heading" class="panel__title">Agent command</h2>
-          <p class="panel__sub">Intent only — policy owns money</p>
-        </div>
-        <div class="form-stack">
-          <div class="field">
-            <label for="agent-prompt">Prompt</label>
-            <textarea
-              id="agent-prompt"
-              name="prompt"
-              rows="3"
-              data-autofill="1"
-              placeholder="Describe the purchase objective…"
-            >{site.services[0].demoPrompt}</textarea>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="agent-service">Service</label>
-              <select id="agent-service" name="serviceId">
-                {site.services.map((s) => (
-                  <option value={s.id}>{s.label}</option>
-                ))}
-              </select>
+      <section class="policy-layout" id="policy" aria-label="Policy and budget overview">
+        <article class="panel budget-panel" aria-labelledby="spend-heading">
+          <div class="panel__head">
+            <div>
+              <p class="panel-kicker">Capital controls</p>
+              <h2 id="spend-heading" class="panel__title">UTC-day budget</h2>
             </div>
-            <div class="field">
-              <label for="agent-param" id="param-label">{site.services[0].paramLabel}</label>
-              <input
-                id="agent-param"
-                name={site.services[0].paramKey}
-                type="text"
-                placeholder={site.services[0].paramPlaceholder}
-                value={site.services[0].paramPlaceholder}
-                autocomplete="off"
-              />
-            </div>
+            <span class="live-indicator"><i aria-hidden="true"></i> Budget ledger</span>
           </div>
+          <div id="spend-meter" class="spend-meter"></div>
+          <ul id="spend-legend" class="legend"></ul>
+        </article>
+
+        <article class="panel policy-panel" aria-labelledby="policy-heading">
+          <div class="panel__head">
+            <div>
+              <p class="panel-kicker">Non-negotiable rules</p>
+              <h2 id="policy-heading" class="panel__title">Policy guardrails</h2>
+            </div>
+            <Icon class="panel-icon" name="ph:shield-check" aria-hidden="true" />
+          </div>
+          <div id="policy-grid" class="stat-grid"></div>
+        </article>
+      </section>
+
+      <section class="activity-section" id="activity" aria-labelledby="attempts-heading">
+        <div class="section-heading">
           <div>
-            <p class="panel__sub" style="margin-bottom: 0.4rem">Quick demo prompts</p>
-            <div class="demo-prompts">
-              <button type="button" class="btn btn--sm" data-demo-prompt="unknown-provider">
-                1 · Reject merchant
+            <p class="panel-kicker">Immutable operating record</p>
+            <h2 id="attempts-heading">Payment attempts</h2>
+            <p>Every challenge, decision, approval, settlement, and protected response.</p>
+          </div>
+          <div class="section-heading__legend" aria-label="Attempt outcomes">
+            <span><i class="legend-dot legend-dot--green"></i> Fulfilled</span>
+            <span><i class="legend-dot legend-dot--amber"></i> Needs review</span>
+            <span><i class="legend-dot legend-dot--red"></i> Blocked</span>
+          </div>
+        </div>
+
+        <div class="activity-layout">
+          <article class="panel attempts-panel" aria-label="Attempt timeline">
+            <div id="attempts-loading" class="empty" hidden>Loading payment activity…</div>
+            <div id="attempts-empty" class="empty" hidden>
+              <span class="empty__icon"><Icon name="ph:receipt" aria-hidden="true" /></span>
+              <strong>No payment attempts yet</strong>
+              <span>Run an agent command to create the first policy decision.</span>
+            </div>
+            <div class="table-wrap">
+              <table class="attempts">
+                <thead>
+                  <tr>
+                    <th scope="col">Service</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Policy</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Proof</th>
+                  </tr>
+                </thead>
+                <tbody id="attempts-body"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <aside class="panel detail-panel" id="detail-panel" aria-labelledby="detail-heading">
+            <div class="detail-panel__top">
+              <div>
+                <p class="panel-kicker">Selected attempt</p>
+                <h2 id="detail-heading" class="panel__title">Decision receipt</h2>
+              </div>
+              <Icon class="panel-icon" name="ph:receipt" aria-hidden="true" />
+            </div>
+            <div class="detail-actions">
+              <button type="button" id="approve-attempt" class="btn btn--approve" hidden>
+                <Icon name="ph:check" aria-hidden="true" />
+                Approve payment
               </button>
-              <button type="button" class="btn btn--sm" data-demo-prompt="risk-report">
-                2 · Auto-pay risk
-              </button>
-              <button type="button" class="btn btn--sm" data-demo-prompt="market-brief">
-                3 · Approve brief
+              <button type="button" id="deny-attempt" class="btn btn--danger" hidden>
+                <Icon name="ph:x" aria-hidden="true" />
+                Deny
               </button>
             </div>
-          </div>
-          <div class="form-actions">
-            <button type="button" id="run-agent" class="btn btn--primary">Run agent</button>
-            <button type="button" id="reset-demo" class="btn btn--ghost">Reset demo</button>
-          </div>
+            <div id="detail-empty" class="empty detail-empty">
+              <span class="empty__icon"><Icon name="ph:cursor-click" aria-hidden="true" /></span>
+              <strong>Select an attempt</strong>
+              <span>Inspect its policy reasoning, audit events, and on-chain proof.</span>
+            </div>
+            <div id="detail-content" hidden></div>
+          </aside>
         </div>
       </section>
 
-      <section class="panel" id="detail-panel" aria-labelledby="detail-heading">
-        <div class="panel__head">
-          <h2 id="detail-heading" class="panel__title">Attempt detail</h2>
-          <p class="panel__sub">Policy, audit, settlement</p>
-        </div>
-        <div class="detail-actions">
-          <button type="button" id="approve-attempt" class="btn btn--amber" hidden>
-            Approve payment
-          </button>
-          <button type="button" id="deny-attempt" class="btn btn--danger" hidden>
-            Deny
-          </button>
-        </div>
-        <div id="detail-empty" class="empty">
-          Select an attempt from the timeline to inspect policy reasons, receipts, and HashScan links.
-        </div>
-        <div id="detail-content" hidden></div>
-      </section>
-
-      <section class="panel span-2" aria-labelledby="attempts-heading">
-        <div class="panel__head">
-          <h2 id="attempts-heading" class="panel__title">Attempts</h2>
-          <p class="panel__sub">Newest first · click a row for detail</p>
-        </div>
-        <div id="attempts-loading" class="empty" hidden>Loading attempts…</div>
-        <div id="attempts-empty" class="empty" hidden>
-          No payment attempts yet. Run an agent command or load a demo prompt.
-        </div>
-        <div class="table-wrap">
-          <table class="attempts">
-            <thead>
-              <tr>
-                <th scope="col">Service / merchant</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Policy</th>
-                <th scope="col">State</th>
-                <th scope="col">Time</th>
-                <th scope="col">Transaction</th>
-              </tr>
-            </thead>
-            <tbody id="attempts-body"></tbody>
-          </table>
-        </div>
-      </section>
-    </div>
-
-    <footer class="footer-note">
-      Sophron demo dashboard · x402 on Hedera testnet · Policy owns money; the agent owns intent.
-      Protected responses appear only after settlement. Demo data is labeled when running in fixture mode.
-    </footer>
+      <footer class="app-footer">
+        <span>Sophron · Policy owns money. The agent owns intent.</span>
+        <span>x402 exact · Hedera testnet · HBAR</span>
+      </footer>
+    </main>
   </div>
 
   <script>

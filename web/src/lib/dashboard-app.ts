@@ -53,6 +53,12 @@ function outcomeTone(outcome: string | null): string {
   return "chip chip--muted";
 }
 
+function serviceMark(serviceId: string): string {
+  if (serviceId === "risk-report") return "RR";
+  if (serviceId === "market-brief") return "MB";
+  return "UP";
+}
+
 function spendParts(spend: PolicyResponseContract["spend"]) {
   const settled = BigInt(spend.settledTinybar);
   const reserved = BigInt(spend.reservedTinybar);
@@ -70,6 +76,7 @@ function spendParts(spend: PolicyResponseContract["spend"]) {
 export function mountDashboard() {
   const root = document.getElementById("dashboard-root");
   if (!root) return;
+  const dashboardRoot = root;
 
   let mode: Mode = "loading";
   let policyData: PolicyResponseContract | null = null;
@@ -106,6 +113,55 @@ export function mountDashboard() {
     approveBtn: $("approve-attempt") as HTMLButtonElement,
     denyBtn: $("deny-attempt") as HTMLButtonElement,
   };
+
+  const navItems = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(".app-nav__item[href^='#']"),
+  );
+  let navFrame: number | null = null;
+
+  function setActiveNav(sectionId: string) {
+    for (const item of navItems) {
+      const active = item.hash === `#${sectionId}`;
+      item.classList.toggle("is-active", active);
+      if (active) item.setAttribute("aria-current", "page");
+      else item.removeAttribute("aria-current");
+    }
+  }
+
+  function syncActiveNav() {
+    const targets = navItems
+      .map((item) => document.getElementById(item.hash.slice(1)))
+      .filter((section): section is HTMLElement => section != null)
+      .sort((a, b) => a.offsetTop - b.offsetTop);
+    if (!targets.length) return;
+
+    const probe = window.scrollY + Math.min(240, window.innerHeight * 0.3);
+    let current = targets[0].id;
+    for (const section of targets) {
+      if (section.offsetTop <= probe) current = section.id;
+    }
+    setActiveNav(current);
+  }
+
+  navItems.forEach((item) => {
+    item.addEventListener("click", () => setActiveNav(item.hash.slice(1)));
+  });
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (navFrame != null) return;
+      navFrame = window.requestAnimationFrame(() => {
+        navFrame = null;
+        syncActiveNav();
+      });
+    },
+    { passive: true },
+  );
+  window.addEventListener("hashchange", () => {
+    const id = window.location.hash.slice(1);
+    if (id) setActiveNav(id);
+  });
 
   function announce(msg: string) {
     els.liveRegion.textContent = msg;
@@ -197,6 +253,16 @@ export function mountDashboard() {
 
     const parts = spendParts(spend);
     els.spendMeter.innerHTML = `
+      <div class="spend-summary">
+        <div class="spend-summary__primary">
+          <span>Available to agents</span>
+          <strong class="mono">${formatHbar(spend.remainingTinybar)}</strong>
+        </div>
+        <div class="spend-summary__limit">
+          <span>Daily ceiling</span>
+          <strong class="mono">${formatHbar(policy.dailyLimitTinybar)}</strong>
+        </div>
+      </div>
       <div class="meter" role="img" aria-label="UTC-day spend: settled ${formatHbar(spend.settledTinybar)}, reserved ${formatHbar(spend.reservedTinybar)}, remaining ${formatHbar(spend.remainingTinybar)}">
         <span class="meter__seg meter__seg--settled" style="width:${parts.settledPct}%"></span>
         <span class="meter__seg meter__seg--reserved" style="width:${parts.reservedPct}%"></span>
@@ -237,8 +303,13 @@ export function mountDashboard() {
         return `
           <tr class="attempt-row${selected}" data-id="${a.id}" tabindex="0" role="button" aria-selected="${a.id === selectedId}">
             <td>
-              <div class="cell-primary">${escapeHtml(a.serviceName)}</div>
-              <div class="cell-sub mono">${escapeHtml(a.merchantId)}</div>
+              <div class="service-cell">
+                <span class="service-mark" aria-hidden="true">${serviceMark(a.serviceId)}</span>
+                <span>
+                  <span class="cell-primary">${escapeHtml(a.serviceName)}</span>
+                  <span class="cell-sub mono">${escapeHtml(a.merchantId)}</span>
+                </span>
+              </div>
             </td>
             <td class="mono">${formatHbar(a.amountTinybar)}</td>
             <td><span class="${outcomeTone(a.policyOutcome)}">${formatPolicyOutcome(a.policyOutcome)}</span></td>
@@ -319,7 +390,7 @@ export function mountDashboard() {
       <header class="detail-head">
         <div>
           <h3 class="detail-title">${escapeHtml(a.serviceName)}</h3>
-          <p class="muted mono">${escapeHtml(a.id)}</p>
+          <p class="detail-id mono">${escapeHtml(a.id)}</p>
         </div>
         <div class="detail-chips">
           <span class="${outcomeTone(a.policyOutcome)}">${formatPolicyOutcome(a.policyOutcome)}</span>
@@ -327,10 +398,22 @@ export function mountDashboard() {
         </div>
       </header>
       ${err}
+      <div class="decision-summary">
+        <div class="decision-summary__item">
+          <span>Merchant</span>
+          <strong class="mono">${escapeHtml(a.merchantId)}</strong>
+        </div>
+        <div class="decision-summary__item">
+          <span>Amount</span>
+          <strong class="mono">${formatHbar(a.amountTinybar)}</strong>
+        </div>
+        <div class="decision-summary__item">
+          <span>Current state</span>
+          <strong>${formatStatusLabel(a.status)}</strong>
+        </div>
+      </div>
       <dl class="meta-grid">
-        <div><dt>Merchant</dt><dd class="mono">${escapeHtml(a.merchantId)}</dd></div>
         <div><dt>Service</dt><dd class="mono">${escapeHtml(a.serviceId)}</dd></div>
-        <div><dt>Amount</dt><dd class="mono">${formatHbar(a.amountTinybar)}</dd></div>
         <div><dt>Reservation expires</dt><dd class="mono">${a.reservationExpiresAt ? formatTime(a.reservationExpiresAt) : "—"}</dd></div>
         <div class="meta-grid__full"><dt>Resource</dt><dd class="mono break">${escapeHtml(a.resourceUrl)}</dd></div>
       </dl>
@@ -398,6 +481,8 @@ export function mountDashboard() {
   }
 
   function paint() {
+    dashboardRoot.classList.toggle("is-busy", busy);
+    dashboardRoot.setAttribute("aria-busy", String(busy));
     renderMode();
     renderPolicy();
     renderAttempts();
@@ -684,6 +769,8 @@ export function mountDashboard() {
   });
 
   syncServiceParams();
+  if (window.location.hash) setActiveNav(window.location.hash.slice(1));
+  else syncActiveNav();
   void bootstrap();
 }
 
