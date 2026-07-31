@@ -51,7 +51,7 @@ export const loadConfig = (): ServerConfig => {
   }
 
   const maxPerRequestTinybar = process.env.SOPHRON_MAX_PER_REQUEST_TINYBAR ?? "5000000";
-  const dailyLimitTinybar = process.env.SOPHRON_DAILY_LIMIT_TINYBAR ?? "6000000";
+  const dailyLimitTinybar = process.env.SOPHRON_DAILY_LIMIT_TINYBAR ?? "10000000";
   const approvalAboveTinybar = process.env.SOPHRON_APPROVAL_ABOVE_TINYBAR ?? "2000000";
   const max = tinybarValue(maxPerRequestTinybar, "SOPHRON_MAX_PER_REQUEST_TINYBAR");
   const daily = tinybarValue(dailyLimitTinybar, "SOPHRON_DAILY_LIMIT_TINYBAR");

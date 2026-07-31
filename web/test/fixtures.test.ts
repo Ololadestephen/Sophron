@@ -5,7 +5,7 @@ describe("dashboard fixtures", () => {
   it("mirror the backend policy and demonstrate each decision path", () => {
     expect(fixturePolicy.policy).toMatchObject({
       maxPerRequestTinybar: "5000000",
-      dailyLimitTinybar: "6000000",
+      dailyLimitTinybar: "10000000",
       approvalAboveTinybar: "2000000",
       reservationTtlSeconds: 900,
     });
@@ -38,7 +38,7 @@ describe("dashboard fixtures", () => {
     expect(store.getPolicy().spend).toMatchObject({
       settledTinybar: "4000000",
       reservedTinybar: "0",
-      remainingTinybar: "2000000",
+      remainingTinybar: "6000000",
     });
   });
 });

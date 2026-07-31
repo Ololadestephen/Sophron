@@ -11,7 +11,7 @@ export const fixturePolicy: PolicyResponseContract = {
   policy: {
     currency: "HBAR",
     maxPerRequestTinybar: "5000000", // 0.05 ℏ
-    dailyLimitTinybar: "6000000", // 0.06 ℏ
+    dailyLimitTinybar: "10000000", // 0.1 ℏ
     approvalAboveTinybar: "2000000", // 0.02 ℏ
     reservationTtlSeconds: 900,
     allowedMerchants: [

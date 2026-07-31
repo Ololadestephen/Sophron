@@ -97,7 +97,7 @@ All monetary policy values are integer tinybar strings. No floating-point arithm
 | Rule | Default |
 |---|---:|
 | Maximum per request | 0.05 HBAR |
-| UTC calendar-day limit | 0.06 HBAR |
+| UTC calendar-day limit | 0.1 HBAR |
 | Human approval required above | 0.02 HBAR |
 | Reservation lifetime | 15 minutes |
 

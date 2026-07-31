@@ -31,7 +31,7 @@ describe("loadConfig", () => {
       serverBaseUrl: "http://localhost:4021",
       databasePath: "./data/sophron.db",
       maxPerRequestTinybar: "5000000",
-      dailyLimitTinybar: "6000000",
+      dailyLimitTinybar: "10000000",
       approvalAboveTinybar: "2000000",
       reservationTtlSeconds: 900,
       openAiModel: "gpt-4o-mini",
